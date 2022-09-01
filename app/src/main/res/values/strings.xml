@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">ToDo List Kotlin</string>
+    <string name="app_name">To Do List</string>
+    <string name="add_button_text">Add a list</string>
+    <string name="add_list_dialog_title">Add a list</string>
+    <string name="add_list_dialog_ok_button">Add</string>
+    <string name="cancel_dialog">Back</string>
+    <string name="hint_list_name">Enter list name</string>
+    <string name="hint_list_description">Enter description</string>
+    <string name="add_details_button_text">Add a detail to the list</string>
+    <string name="first_screen_title">Lists</string>
+    <string name="add_list_item_dialog_title">Add an item to the list</string>
+    <string name="hint_list_item_name">Enter description</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
