@@ -15,8 +15,6 @@ class ListsFragment : Fragment() {
     private lateinit var listsRecyclerView: RecyclerView
     private lateinit var adapter: ListsRecyclerViewAdapter
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
