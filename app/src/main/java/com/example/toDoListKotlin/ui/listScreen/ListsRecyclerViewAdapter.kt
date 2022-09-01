@@ -22,9 +22,15 @@ class ListsRecyclerViewAdapter : RecyclerView.Adapter<ListsRecyclerViewAdapter.V
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val list: ToDoList = toDoLists[position]
         holder.binding.list = list
+        holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
         return toDoLists.size
+    }
+
+    fun updateToDoLists(toDoLists: ArrayList<ToDoList>) {
+        this.toDoLists = toDoLists
+        notifyDataSetChanged()
     }
 }
