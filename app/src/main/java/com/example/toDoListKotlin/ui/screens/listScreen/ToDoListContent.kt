@@ -9,38 +9,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.LiveData
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
-@Preview(showBackground = true)
 @Composable
-private fun ExampleList() {
-    ToDoListAppTheme {
-        ToDoLists(lists = listOf(
-                ToDoList("Header", "Description"),
-                ToDoList("Test", "Test")
-            )
-        )
-    }
-}
+fun ToDoLists(listViewModel: ListViewModel) {
+    val listsLiveData = listViewModel.toDoLists
+    val toDoLists by listsLiveData.observeAsState(initial = emptyList())
 
-@Composable
-fun ToDoLists(lists: List<ToDoList>) {
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-        items(items = lists) {
-            list -> DisplayToDoList(list)
+        items(items = toDoLists) {
+                list -> ToDoListItem(list)
         }
     }
 }
 
 @Composable
-fun DisplayToDoList(list: ToDoList) {
+private fun ToDoListsImpl(lists: List<ToDoList>) {
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(items = lists) {
+            list -> ToDoListItem(list)
+        }
+    }
+}
+
+@Composable
+private fun ToDoListItem(list: ToDoList) {
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Text(
             text = list.header,
@@ -50,9 +48,14 @@ fun DisplayToDoList(list: ToDoList) {
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun ListsLiveDataComponent(listsLiveData: LiveData<ArrayList<ToDoList>>) {
-    val toDoLists by listsLiveData.observeAsState(initial = emptyList())
-
-    ToDoLists(lists = toDoLists)
+private fun ExampleList() {
+    ToDoListAppTheme {
+        ToDoListsImpl(lists = listOf(
+                ToDoList("Header", "Description"),
+                ToDoList("Test", "Test")
+            )
+        )
+    }
 }

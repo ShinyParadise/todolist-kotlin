@@ -9,16 +9,15 @@ import androidx.fragment.app.Fragment
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 class ListsFragment : Fragment() {
-    private val listViewModel: ListViewModel = ListViewModel()
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
                 ToDoListAppTheme {
-                    ListsLiveDataComponent(listsLiveData = listViewModel.toDoLists)
+                    ToDoLists(listViewModel = ListViewModel())
                 }
             }
         }
