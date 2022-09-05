@@ -50,7 +50,7 @@ private fun ToDoListItem(list: ToDoList) {
 
 @Preview(showBackground = true)
 @Composable
-private fun ExampleList() {
+private fun ToDoLists_Preview() {
     ToDoListAppTheme {
         ToDoListsImpl(lists = listOf(
                 ToDoList("Header", "Description"),
