@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, ListsFragment())
-            .addToBackStack(null)
             .commit()
     }
 }
