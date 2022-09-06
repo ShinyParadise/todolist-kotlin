@@ -18,7 +18,7 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
 fun ToDoLists(listViewModel: ListViewModel) {
-   val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
+    val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
 
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
         items(items = lists) { list ->

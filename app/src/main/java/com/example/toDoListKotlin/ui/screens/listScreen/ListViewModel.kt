@@ -10,12 +10,11 @@ class ListViewModel: ViewModel() {
     private val toDoLists: ArrayList<ToDoList> = ArrayList()
 
     val listFlow: Flow<ArrayList<ToDoList>> = flow {
-            repeat(10) {
-                toDoLists.add(generateNewList())
-                
-                emit(toDoLists)
-                delay(1000)
-            }
+        repeat(10) {
+            toDoLists.add(generateNewList())
+
+            emit(toDoLists)
+            delay(1000)
         }
     }
 
