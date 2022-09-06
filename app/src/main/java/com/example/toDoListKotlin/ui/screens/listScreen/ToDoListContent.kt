@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.toDoListKotlin.dto.ToDoList
@@ -18,12 +18,11 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
 fun ToDoLists(listViewModel: ListViewModel) {
-    val listsLiveData = listViewModel.toDoLists
-    val toDoLists by listsLiveData.observeAsState(initial = emptyList())
+   val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
 
     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-        items(items = toDoLists) {
-                list -> ToDoListItem(list)
+        items(items = lists) { list ->
+            ToDoListItem(list)
         }
     }
 }
