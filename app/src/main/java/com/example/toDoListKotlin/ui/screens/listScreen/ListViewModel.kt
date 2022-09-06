@@ -1,27 +1,30 @@
 package com.example.toDoListKotlin.ui.screens.listScreen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.toDoListKotlin.dto.ToDoList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class ListViewModel: ViewModel() {
-    private val _toDoLists: MutableLiveData<ArrayList<ToDoList>> = MutableLiveData(ArrayList())
-    val toDoLists: LiveData<ArrayList<ToDoList>> = _toDoLists
+    private val toDoLists: ArrayList<ToDoList> = ArrayList()
 
-    init {
-        for (i in 1..10) insertNewList()
+    val listFlow: Flow<ArrayList<ToDoList>> = flow {
+            repeat(10) {
+                toDoLists.add(generateNewList())
+                
+                emit(toDoLists)
+                delay(1000)
+            }
+        }
     }
 
-    fun insertNewList() {
+    private fun generateNewList(): ToDoList {
         val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
         val randomName: String = List(20) { alphabet.random() }.joinToString("")
         val randomDescription: String = List(20) { alphabet.random() }.joinToString("")
 
-        val currentList: ArrayList<ToDoList>? = toDoLists.value
-        currentList?.add(ToDoList(randomName, randomDescription))
-
-        _toDoLists.postValue(currentList)
+        return ToDoList(randomName, randomDescription)
     }
 }
