@@ -12,7 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.toDoListKotlin.db.entities.ToDoList
+import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
@@ -40,10 +40,10 @@ private fun ToDoListsImpl(lists: List<ToDoList>) {
 private fun ToDoListItem(list: ToDoList) {
     Column(modifier = Modifier.padding(vertical = 4.dp)) {
         Text(
-            text = list.header,
+            text = list.name,
             style = MaterialTheme.typography.h6
         )
-        Text(text = list.description)
+        list.description?.let { Text(text = it) }
     }
 }
 
