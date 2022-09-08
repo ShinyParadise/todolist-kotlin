@@ -1,4 +1,4 @@
-package com.example.toDoListKotlin.ui.startup
+package com.example.toDoListKotlin.ui.root
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
