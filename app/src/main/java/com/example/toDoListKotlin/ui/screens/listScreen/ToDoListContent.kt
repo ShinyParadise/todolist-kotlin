@@ -12,7 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.toDoListKotlin.dto.ToDoList
+import com.example.toDoListKotlin.db.entities.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
