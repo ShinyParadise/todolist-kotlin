@@ -1,7 +1,7 @@
 package com.example.toDoListKotlin.dto
 
 data class ToDoList(
-    val listID: Int,
+    val listID: Long,
     val name: String,
     val description: String?
 ) {
@@ -12,6 +12,6 @@ data class ToDoList(
     )
 
     companion object {
-        const val INVALID_ID = Int.MAX_VALUE
+        const val INVALID_ID = Long.MAX_VALUE
     }
 }
