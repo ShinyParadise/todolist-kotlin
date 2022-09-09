@@ -17,7 +17,7 @@ class ListsFragment : Fragment() {
     init {
         val appContext = ToDoListApp.instance.applicationContext
         val dbInstance = AppDatabase.getInstance(appContext)
-        viewModel = ListViewModel(ListRepositoryImpl(dbInstance))
+        viewModel = ListViewModel(ListRepositoryImpl(dbInstance.toDoListDAO()))
     }
 
     override fun onCreateView(
