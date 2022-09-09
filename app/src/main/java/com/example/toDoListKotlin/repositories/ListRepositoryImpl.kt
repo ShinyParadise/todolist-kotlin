@@ -19,6 +19,6 @@ class ListRepositoryImpl(private val appDatabase: AppDatabase): ListRepository {
         val dbList = dbList(name = list.name, description = list.description)
         val insertedRowID = appDatabase.toDoListDAO().insert(dbList)
 
-        return list.copy(listID = insertedRowID)
+        return list.copy(id = insertedRowID)
     }
 }

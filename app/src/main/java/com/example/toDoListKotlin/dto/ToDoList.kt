@@ -1,12 +1,12 @@
 package com.example.toDoListKotlin.dto
 
 data class ToDoList(
-    val listID: Long,
+    val id: Long,
     val name: String,
     val description: String?
 ) {
     constructor(name: String, description: String?) : this(
-        listID = INVALID_ID,
+        id = INVALID_ID,
         name = name,
         description = description
     )
