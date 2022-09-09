@@ -1,19 +1,28 @@
 package com.example.toDoListKotlin.ui.screens.listScreen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.toDoListKotlin.dto.ToDoList
+import com.example.toDoListKotlin.repositories.ListRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
-class ListViewModel: ViewModel() {
-    private val toDoLists: ArrayList<ToDoList> = ArrayList()
+class ListViewModel(private val listRepository: ListRepository): ViewModel() {
+    private var toDoLists: ArrayList<ToDoList> = ArrayList()
+
+    init {
+        viewModelScope.launch { toDoLists = ArrayList(listRepository.loadAll()) }
+    }
 
     val listFlow: Flow<ArrayList<ToDoList>> = flow {
         repeat(10) {
-            toDoLists.add(generateNewList())
+            listRepository.add(generateNewList())
 
+            toDoLists = ArrayList(listRepository.loadAll())
             emit(toDoLists)
+
             delay(1000)
         }
     }
