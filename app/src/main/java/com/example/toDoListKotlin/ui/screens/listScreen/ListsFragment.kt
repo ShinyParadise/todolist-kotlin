@@ -6,19 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.example.toDoListKotlin.db.AppDatabase
-import com.example.toDoListKotlin.repositories.ListRepositoryImpl
-import com.example.toDoListKotlin.ui.ToDoListApp
+import androidx.fragment.app.viewModels
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ListsFragment : Fragment() {
-    private val viewModel: ListViewModel
-
-    init {
-        val appContext = ToDoListApp.instance.applicationContext
-        val dbInstance = AppDatabase.getInstance(appContext)
-        viewModel = ListViewModel(ListRepositoryImpl(dbInstance.toDoListDAO()))
-    }
+    private val viewModel: ListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ListViewModel(private val listRepository: ListRepository): ViewModel() {
+@HiltViewModel
+class ListViewModel @Inject constructor (private val listRepository: ListRepository): ViewModel() {
     private var toDoLists: ArrayList<ToDoList> = ArrayList()
 
     init {

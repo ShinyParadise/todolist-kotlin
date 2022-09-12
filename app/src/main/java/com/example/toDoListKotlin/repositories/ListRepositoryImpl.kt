@@ -2,9 +2,10 @@ package com.example.toDoListKotlin.repositories
 
 import com.example.toDoListKotlin.db.dao.ToDoListDAO
 import com.example.toDoListKotlin.dto.ToDoList
+import javax.inject.Inject
 import com.example.toDoListKotlin.db.entities.ToDoList as dbList
 
-class ListRepositoryImpl(private val dao: ToDoListDAO): ListRepository {
+class ListRepositoryImpl @Inject constructor (private val dao: ToDoListDAO): ListRepository {
     override suspend fun loadAll(): List<ToDoList> {
         val listEntities = dao.getAll()
 
