@@ -1,6 +1,5 @@
 package com.example.toDoListKotlin.ui.screens.detailScreen
 
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Row
