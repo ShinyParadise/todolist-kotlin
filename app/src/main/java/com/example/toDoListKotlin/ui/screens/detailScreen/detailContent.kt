@@ -12,23 +12,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.toDoListKotlin.dto.ListItem
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
 @Composable
-fun ListItemsImpl(listItems: List<String>) {
+fun ListItemsImpl(listItems: List<ListItem>) {
     Surface(color = MaterialTheme.colors.primary) {
         LazyColumn {
             items(items = listItems) {
-                ListItem(itemDescription = it)
+                ListItem(it)
             }
         }
     }
 }
 
 @Composable
-private fun ListItem(itemDescription: String) {
-    var checkedState by remember { mutableStateOf(false) }
+private fun ListItem(listItem: ListItem) {
+    var checkedState by remember { mutableStateOf(listItem.state) }
     
     Surface(
         color = MaterialTheme.colors.primary,
@@ -46,7 +47,7 @@ private fun ListItem(itemDescription: String) {
                 onCheckedChange = { checkedState = it }
             )
             Text(
-                text = itemDescription,
+                text = listItem.description,
                 fontSize = 24.sp,
                 modifier = Modifier.padding(top = 6.dp)
             )
@@ -58,7 +59,11 @@ private fun ListItem(itemDescription: String) {
 @Composable
 private fun Items_Preview_Dark() {
     ToDoListAppTheme {
-        ListItemsImpl(listItems = listOf("Test", "Aaaaaa", "Life is good"))
+        ListItemsImpl(listItems = listOf(
+            ListItem("Test", false),
+            ListItem("aaaaaaa", true),
+            ListItem("Life is good", true)
+        ))
     }
 }
 
@@ -66,6 +71,9 @@ private fun Items_Preview_Dark() {
 @Composable
 private fun Items_Preview_Light() {
     ToDoListAppTheme {
-        ListItemsImpl(listItems = listOf("Test", "Aaaaaa", "Life is good"))
+        ListItemsImpl(listItems = listOf(ListItem("Test", false),
+            ListItem("aaaaaaa", true),
+            ListItem("Life is good", true)
+        ))
     }
 }
