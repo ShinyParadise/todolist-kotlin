@@ -1,6 +1,8 @@
 package com.example.toDoListKotlin.ui.screens.detailScreen
 
 import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -91,7 +93,7 @@ private fun ListItem(listItem: ListItem) {
 @Preview(
     showBackground = true,
     widthDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = UI_MODE_NIGHT_YES,
     heightDp = 300
 )
 @Composable
@@ -108,7 +110,7 @@ private fun Items_Preview_Dark() {
 @Preview(
     showBackground = true,
     widthDp = 320,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = UI_MODE_NIGHT_NO,
     heightDp = 300
 )
 @Composable

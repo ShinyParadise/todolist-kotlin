@@ -10,9 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,24 +20,63 @@ import androidx.compose.ui.unit.sp
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
-
 @Composable
-fun ToDoLists(listViewModel: ListViewModel) {
+fun DetailScreen(
+    listViewModel: ListViewModel,
+    onAddButtonClick: () -> Unit
+) {
     val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
 
-    LazyColumn {
-        items(items = lists) { list ->
-            ToDoListItem(list)
+    Scaffold(
+        content = { paddingValues ->
+            ToDoLists(lists = lists, Modifier.padding(paddingValues))
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddButtonClick,
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = MaterialTheme.colors.primary
+            ) {
+                Icon(Icons.Filled.Add, "Add an item")
+            }
         }
-    }
+    )
 }
 
 @Composable
-private fun ToDoListsImpl(lists: List<ToDoList>) {
-    LazyColumn {
-       items(items = lists) {
-           list -> ToDoListItem(list)
-       }
+private fun DetailScreenImpl(
+    lists: List<ToDoList>,
+    onAddButtonClick: () -> Unit
+) {
+    Scaffold(
+        backgroundColor = MaterialTheme.colors.primary,
+        content = { paddingValues ->
+            ToDoLists(lists = lists, Modifier.padding(paddingValues))
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddButtonClick,
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = MaterialTheme.colors.primary
+            ) {
+                Icon(Icons.Filled.Add, "Add an item")
+            }
+        }
+    )
+}
+
+@Composable
+fun ToDoLists(lists: List<ToDoList>, modifier: Modifier = Modifier) {
+    Surface(
+        color = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary,
+        modifier = modifier
+    ) {
+        LazyColumn {
+            items(items = lists) { list ->
+                ToDoListItem(list)
+            }
+        }
     }
 }
 
@@ -48,7 +87,7 @@ private fun ToDoListItem(list: ToDoList) {
         contentColor = MaterialTheme.colors.onPrimary,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column() {
+        Column {
             Text(
                 text = list.name,
                 fontSize = 24.sp,
@@ -64,25 +103,34 @@ private fun ToDoListItem(list: ToDoList) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, uiMode = UI_MODE_NIGHT_YES)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    heightDp = 300
+)
 @Composable
 private fun ToDoLists_Preview_Dark() {
     ToDoListAppTheme {
-        ToDoListsImpl(lists = listOf(
-                ToDoList("Header", "Description"),
-                ToDoList("Test", "Test")
-            )
-        )
+        DetailScreenImpl(lists = listOf(
+            ToDoList("Header", "Description"),
+            ToDoList("Test", "Test")
+        )) {}
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, uiMode = UI_MODE_NIGHT_NO)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_NO,
+    heightDp = 300
+)
 @Composable
 private fun ToDoLists_Preview_Light() {
     ToDoListAppTheme {
-        ToDoListsImpl(lists = listOf(
+        DetailScreenImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
-        ))
+        )) {}
     }
 }
