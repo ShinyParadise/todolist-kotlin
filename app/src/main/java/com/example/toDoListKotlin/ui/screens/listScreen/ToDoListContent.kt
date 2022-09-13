@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
@@ -24,7 +25,7 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 fun ToDoLists(listViewModel: ListViewModel) {
     val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
 
-    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+    LazyColumn {
         items(items = lists) { list ->
             ToDoListItem(list)
         }
@@ -33,7 +34,7 @@ fun ToDoLists(listViewModel: ListViewModel) {
 
 @Composable
 private fun ToDoListsImpl(lists: List<ToDoList>) {
-    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+    LazyColumn {
        items(items = lists) {
            list -> ToDoListItem(list)
        }
@@ -47,12 +48,18 @@ private fun ToDoListItem(list: ToDoList) {
         contentColor = MaterialTheme.colors.onPrimary,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(vertical = 4.dp)) {
+        Column() {
             Text(
                 text = list.name,
-                style = MaterialTheme.typography.h6
+                fontSize = 24.sp,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(top = 4.dp)
             )
-            list.description?.let { Text(text = it) }
+            list.description?.let { Text(
+                text = it,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(bottom = 4.dp))
+            }
         }
     }
 }
@@ -76,7 +83,6 @@ private fun ToDoLists_Preview_Light() {
         ToDoListsImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
-        )
-        )
+        ))
     }
 }
