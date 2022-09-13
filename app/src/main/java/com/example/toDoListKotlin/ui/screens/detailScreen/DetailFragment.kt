@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.example.toDoListKotlin.dto.ListItem
@@ -26,7 +27,9 @@ class DetailFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ToDoListAppTheme {
-                    ListItemsImpl(listItems = details)
+                    DetailScreen(listItems = details) {
+                        Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

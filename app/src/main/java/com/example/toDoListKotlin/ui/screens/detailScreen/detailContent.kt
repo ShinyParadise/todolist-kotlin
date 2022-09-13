@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,8 +19,39 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
 @Composable
-fun ListItemsImpl(listItems: List<ListItem>) {
-    Surface(color = MaterialTheme.colors.primary) {
+fun DetailScreen(
+    listItems: List<ListItem>,
+    onAddButtonClick: () -> Unit
+) {
+    Scaffold(
+        backgroundColor = MaterialTheme.colors.primary,
+        content = { padding ->
+            ListItemsImpl(
+                listItems = listItems,
+                modifier = Modifier.padding(padding)
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddButtonClick,
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = MaterialTheme.colors.primary
+            ) {
+                Icon(Icons.Filled.Add, "Add an item")
+            }
+        }
+    )
+}
+
+@Composable
+private fun ListItemsImpl(
+    listItems: List<ListItem>,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        color = MaterialTheme.colors.primary,
+        modifier = modifier
+    ) {
         LazyColumn {
             items(items = listItems) {
                 ListItem(it)
@@ -55,25 +88,36 @@ private fun ListItem(listItem: ListItem) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 300
+)
 @Composable
 private fun Items_Preview_Dark() {
     ToDoListAppTheme {
-        ListItemsImpl(listItems = listOf(
+        DetailScreen(listItems = listOf(
             ListItem("Test", false),
             ListItem("aaaaaaa", true),
             ListItem("Life is good", true)
-        ))
+        )) {}
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 300
+)
 @Composable
 private fun Items_Preview_Light() {
     ToDoListAppTheme {
-        ListItemsImpl(listItems = listOf(ListItem("Test", false),
+        DetailScreen(listItems = listOf(
+            ListItem("Test", false),
             ListItem("aaaaaaa", true),
             ListItem("Life is good", true)
-        ))
+        )) {}
     }
 }
