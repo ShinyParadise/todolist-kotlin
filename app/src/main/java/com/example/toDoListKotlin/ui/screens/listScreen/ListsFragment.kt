@@ -25,6 +25,7 @@ class ListsFragment : Fragment() {
                 ToDoListAppTheme {
                     DetailScreen(listViewModel = viewModel) {
                         Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+                    ListsScreen(listViewModel = viewModel) {
                     }
                 }
             }

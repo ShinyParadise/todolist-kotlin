@@ -21,7 +21,7 @@ import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
-fun DetailScreen(
+fun ListsScreen(
     listViewModel: ListViewModel,
     onAddButtonClick: () -> Unit
 ) {
