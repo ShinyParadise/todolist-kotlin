@@ -6,34 +6,46 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.toDoListKotlin.dto.ToDoList
+import com.example.toDoListKotlin.ui.screens.alertDialog.CustomListDialog
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun ListsScreen(
-    listViewModel: ListViewModel,
-    onAddButtonClick: () -> Unit
-) {
+fun ListsScreen(listViewModel: ListViewModel) {
+    val coroutineScope = rememberCoroutineScope()
+
     val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
+    var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         content = { paddingValues ->
             ToDoLists(lists = lists, Modifier.padding(paddingValues))
+
+            if (openDialog) {
+                CustomListDialog(
+                    viewModel = listViewModel,
+                    title = "Add a list",
+                    onPositiveClick = {
+                        openDialog = false
+                        coroutineScope.launch { listViewModel.addListFromDialog() }
+                    },
+                    onNegativeClick = { openDialog = false }
+                )
+            }
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAddButtonClick,
+                onClick = { openDialog = true },
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = MaterialTheme.colors.primary
             ) {
