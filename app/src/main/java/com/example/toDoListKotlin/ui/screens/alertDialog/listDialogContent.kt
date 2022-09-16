@@ -8,12 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.toDoListKotlin.ui.screens.listScreen.ListViewModel
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
+import kotlinx.coroutines.flow.StateFlow
 
 
 @Composable
-fun CustomDialog(
-    vararg inputFields: String,
+fun CustomListDialog(
+    viewModel: ListViewModel,
     title: String,
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
@@ -51,31 +53,64 @@ fun CustomDialog(
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(8.dp)
                 )
-                for (field in inputFields)
-                    InputField(label = field)
+                InputField(
+                    label = "Name",
+                    storedValue = viewModel.savedName,
+                    viewModel::setSavedName
+                )
+                InputField(
+                    label = "Description",
+                    storedValue = viewModel.savedDescription,
+                    viewModel::setSavedDescription
+                )
             }
         }
     )
 }
 
 @Composable
-private fun InputField(label: String) {
-    var text by remember { mutableStateOf("") }
+fun CustomListDialogImpl(
+    title: String,
+    onPositiveClick: () -> Unit,
+    onNegativeClick: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onNegativeClick,
+        contentColor = MaterialTheme.colors.onBackground,
+        backgroundColor = MaterialTheme.colors.background,
+        buttons = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                Button(
+                    onClick = onNegativeClick,
+                    modifier = Modifier.fillMaxWidth(0.5f)
+                ) {
+                    Text(text = "Back")
+                }
 
-    TextField(
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colors.onPrimary,
-            focusedIndicatorColor = MaterialTheme.colors.onPrimary,
-            focusedLabelColor = MaterialTheme.colors.onPrimary,
-            unfocusedIndicatorColor = MaterialTheme.colors.onPrimary,
-            unfocusedLabelColor = MaterialTheme.colors.onPrimary,
-            cursorColor = MaterialTheme.colors.onPrimary
-        ),
-        value = text,
-        onValueChange = { text = it },
-        label = { Text(label) },
-        singleLine = true,
-        modifier = Modifier.padding(8.dp)
+                Button(
+                    onClick = onPositiveClick,
+                    Modifier.fillMaxWidth(1f)
+                ) {
+                    Text(text = "Add")
+                }
+            }
+        },
+        text = {
+            Column(Modifier.padding(vertical = 8.dp)) {
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(8.dp)
+                )
+                InputFieldImpl(label = "Name")
+                InputFieldImpl(label = "Description")
+            }
+        }
     )
 }
 
@@ -83,8 +118,7 @@ private fun InputField(label: String) {
 @Composable
 private fun Dialog_Preview_Light() {
     ToDoListAppTheme {
-        CustomDialog(
-            inputFields = arrayOf("Name", "Details"),
+        CustomListDialogImpl(
             title = "Add list",
             onPositiveClick = {},
             onNegativeClick = {}
@@ -96,8 +130,7 @@ private fun Dialog_Preview_Light() {
 @Composable
 private fun Dialog_Preview_Dark() {
     ToDoListAppTheme {
-        CustomDialog(
-            inputFields = arrayOf("Name", "Details"),
+        CustomListDialogImpl(
             title = "Add list",
             onPositiveClick = {},
             onNegativeClick = {}
