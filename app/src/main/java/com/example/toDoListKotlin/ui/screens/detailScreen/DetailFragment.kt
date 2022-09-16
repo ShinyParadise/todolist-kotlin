@@ -10,13 +10,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.toDoListKotlin.dto.ListItem
-import com.example.toDoListKotlin.ui.screens.alertDialog.CustomDialog
+import com.example.toDoListKotlin.ui.screens.alertDialog.CustomDetailDialog
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
+    private val viewModel: DetailViewModel by viewModels()
+
     private val details: List<ListItem> = listOf(
         ListItem("Test", false),
         ListItem("aaaaaaa", true),
@@ -38,8 +41,8 @@ class DetailFragment : Fragment() {
                     }
 
                     if (openDialog) {
-                        CustomDialog(
-                            inputFields = arrayOf("Description"),
+                        CustomDetailDialog(
+                            viewModel = viewModel,
                             title = "Add list item",
                             onPositiveClick = { openDialog = false },
                             onNegativeClick = { openDialog = false }
