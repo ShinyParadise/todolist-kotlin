@@ -16,11 +16,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.toDoListKotlin.dto.ListItem
+import com.example.toDoListKotlin.ui.screens.alertDialog.CustomDetailDialog
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 
 @Composable
-fun DetailScreen(
+fun DetailScreen(viewModel: DetailViewModel) {
+    val listItems by viewModel.itemsFlow.collectAsState(initial = emptyList())
+    var openDialog by remember { mutableStateOf(false) }
+
+    Scaffold(
+        backgroundColor = MaterialTheme.colors.primary,
+        content = { padding ->
+            ListItemsImpl(
+                listItems = listItems,
+                modifier = Modifier.padding(padding)
+            )
+
+            if (openDialog) {
+                CustomDetailDialog(
+                    viewModel = viewModel,
+                    title = "Add list item",
+                    onPositiveClick = { openDialog = false },
+                    onNegativeClick = { openDialog = false }
+                )
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { openDialog = true },
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = MaterialTheme.colors.primary
+            ) {
+                Icon(Icons.Filled.Add, "Add an item")
+            }
+        }
+    )
+}
+
+@Composable
+private fun DetailScreenImpl(
     listItems: List<ListItem>,
     onAddButtonClick: () -> Unit
 ) {
@@ -98,7 +133,7 @@ private fun ListItem(listItem: ListItem) {
 @Composable
 private fun Items_Preview_Dark() {
     ToDoListAppTheme {
-        DetailScreen(listItems = listOf(
+        DetailScreenImpl(listItems = listOf(
             ListItem("Test", false),
             ListItem("aaaaaaa", true),
             ListItem("Life is good", true)
@@ -115,7 +150,7 @@ private fun Items_Preview_Dark() {
 @Composable
 private fun Items_Preview_Light() {
     ToDoListAppTheme {
-        DetailScreen(listItems = listOf(
+        DetailScreenImpl(listItems = listOf(
             ListItem("Test", false),
             ListItem("aaaaaaa", true),
             ListItem("Life is good", true)
