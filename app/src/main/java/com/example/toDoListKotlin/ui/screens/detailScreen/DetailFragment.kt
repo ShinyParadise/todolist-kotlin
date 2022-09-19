@@ -8,11 +8,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.toDoListKotlin.dto.ListItem
+import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailFragment(val toDoList: ToDoList) : Fragment() {
     private val viewModel: DetailViewModel by viewModels()
 
     private val details: List<ListItem> = listOf(

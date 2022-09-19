@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.toDoListKotlin.R
+import com.example.toDoListKotlin.ui.screens.detailScreen.DetailFragment
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +24,15 @@ class ListsFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ToDoListAppTheme {
-                    ListsScreen(listViewModel = viewModel)
+                    ListsScreen(
+                        listViewModel = viewModel,
+                        onItemClick = {
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container_view, DetailFragment(it))
+                                .addToBackStack(null)
+                                .commit()
+                        }
+                    )
                 }
             }
         }

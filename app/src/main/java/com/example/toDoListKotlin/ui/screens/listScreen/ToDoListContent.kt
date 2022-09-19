@@ -2,6 +2,7 @@ package com.example.toDoListKotlin.ui.screens.listScreen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,7 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun ListsScreen(listViewModel: ListViewModel) {
+fun ListsScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
 
     val lists by listViewModel.toDoLists.collectAsState(initial = emptyList())
@@ -30,7 +31,7 @@ fun ListsScreen(listViewModel: ListViewModel) {
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { paddingValues ->
-            ToDoLists(lists = lists, Modifier.padding(paddingValues))
+            ToDoLists(lists = lists, Modifier.padding(paddingValues), onItemClick)
 
             if (openDialog) {
                 CustomListDialog(
@@ -64,7 +65,7 @@ private fun ListScreenImpl(
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { paddingValues ->
-            ToDoLists(lists = lists, Modifier.padding(paddingValues))
+            ToDoLists(lists = lists, Modifier.padding(paddingValues)) {}
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -79,7 +80,11 @@ private fun ListScreenImpl(
 }
 
 @Composable
-fun ToDoLists(lists: List<ToDoList>, modifier: Modifier = Modifier) {
+fun ToDoLists(
+    lists: List<ToDoList>,
+    modifier: Modifier = Modifier,
+    onItemClick: (ToDoList) -> Unit
+) {
     Surface(
         color = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary,
@@ -87,18 +92,18 @@ fun ToDoLists(lists: List<ToDoList>, modifier: Modifier = Modifier) {
     ) {
         LazyColumn {
             items(items = lists) { list ->
-                ToDoListItem(list)
+                ToDoListItem(list, onItemClick)
             }
         }
     }
 }
 
 @Composable
-private fun ToDoListItem(list: ToDoList) {
+private fun ToDoListItem(list: ToDoList, onItemClick: (ToDoList) -> Unit) {
     Surface(
         color = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().clickable { onItemClick(list) }
     ) {
         Column {
             Text(
