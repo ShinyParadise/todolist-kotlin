@@ -69,7 +69,7 @@ fun CustomListDialog(
 }
 
 @Composable
-fun CustomListDialogImpl(
+private fun CustomListDialogImpl(
     title: String,
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
