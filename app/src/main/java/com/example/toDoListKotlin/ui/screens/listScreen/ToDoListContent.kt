@@ -57,7 +57,7 @@ fun ListsScreen(listViewModel: ListViewModel) {
 }
 
 @Composable
-private fun DetailScreenImpl(
+private fun ListScreenImpl(
     lists: List<ToDoList>,
     onAddButtonClick: () -> Unit
 ) {
@@ -125,7 +125,7 @@ private fun ToDoListItem(list: ToDoList) {
 @Composable
 private fun ToDoLists_Preview_Dark() {
     ToDoListAppTheme {
-        DetailScreenImpl(lists = listOf(
+        ListScreenImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
         )) {}
@@ -141,7 +141,7 @@ private fun ToDoLists_Preview_Dark() {
 @Composable
 private fun ToDoLists_Preview_Light() {
     ToDoListAppTheme {
-        DetailScreenImpl(lists = listOf(
+        ListScreenImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
         )) {}
