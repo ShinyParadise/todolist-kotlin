@@ -24,10 +24,11 @@ import kotlinx.coroutines.launch
 fun ListsScreen(listViewModel: ListViewModel) {
     val coroutineScope = rememberCoroutineScope()
 
-    val lists by listViewModel.listFlow.collectAsState(initial = emptyList())
+    val lists by listViewModel.toDoLists.collectAsState(initial = emptyList())
     var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
+        backgroundColor = MaterialTheme.colors.primary,
         content = { paddingValues ->
             ToDoLists(lists = lists, Modifier.padding(paddingValues))
 

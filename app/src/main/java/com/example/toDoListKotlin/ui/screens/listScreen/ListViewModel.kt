@@ -5,11 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,20 +17,16 @@ class ListViewModel @Inject constructor (private val listRepository: ListReposit
     private val _savedDescription = MutableStateFlow("")
     val savedDescription = _savedDescription.asStateFlow()
 
-    private var toDoLists: ArrayList<ToDoList> = ArrayList()
-    private var refreshIntervalMs: Long = 1000
+    private val _toDoLists: MutableStateFlow<List<ToDoList>> = MutableStateFlow(emptyList())
+    val toDoLists: StateFlow<List<ToDoList>> = _toDoLists.asStateFlow()
 
-    init { viewModelScope.launch { toDoLists = ArrayList(listRepository.loadAll()) } }
-
-    val listFlow: Flow<ArrayList<ToDoList>> = flow {
-        toDoLists = ArrayList(listRepository.loadAll())
-        emit(toDoLists)
-        delay(refreshIntervalMs)
-    }
+    init { viewModelScope.launch { _toDoLists.value = listRepository.loadAll() } }
 
     suspend fun addListFromDialog() {
-        if (savedName.value.isNotBlank())
+        if (savedName.value.isNotBlank()) {
             listRepository.add(ToDoList(savedName.value, savedDescription.value))
+            _toDoLists.value = listRepository.loadAll()
+        }
     }
 
     fun setSavedName(name: String) {
