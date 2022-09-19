@@ -16,12 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment(val toDoList: ToDoList) : Fragment() {
     private val viewModel: DetailViewModel by viewModels()
 
-    private val details: List<ListItem> = listOf(
-        ListItem("Test", false),
-        ListItem("aaaaaaa", true),
-        ListItem("Life is good", true)
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
