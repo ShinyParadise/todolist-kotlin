@@ -22,7 +22,7 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel) {
-    val listItems by viewModel.itemsFlow.collectAsState(initial = emptyList())
+    val listItems by viewModel.listItems.collectAsState(initial = emptyList())
     var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
