@@ -2,12 +2,14 @@ package com.example.toDoListKotlin.ui.screens.detailScreen
 
 import androidx.lifecycle.ViewModel
 import com.example.toDoListKotlin.dto.ListItem
+import com.example.toDoListKotlin.repositories.ListItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor () : ViewModel() {
+class DetailViewModel @Inject constructor (private val repository: ListItemRepository)
+    : ViewModel() {
     private val _savedDescription = MutableStateFlow("")
     val savedDescription = _savedDescription.asStateFlow()
 
