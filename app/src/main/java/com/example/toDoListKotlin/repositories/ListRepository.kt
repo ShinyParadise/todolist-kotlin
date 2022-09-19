@@ -1,8 +1,8 @@
 package com.example.toDoListKotlin.repositories
 
-import com.example.toDoListKotlin.dto.ToDoList
+import com.example.toDoListKotlin.dto.ListItem
 
 interface ListRepository {
-    suspend fun loadAll(): List<ToDoList>
-    suspend fun add(list: ToDoList): ToDoList
+    suspend fun loadAll(): List<ListItem>
+    suspend fun add(list: ListItem): ListItem
 }
