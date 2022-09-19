@@ -13,6 +13,13 @@ data class ListItem(
         listID = listID
     )
 
+    constructor(description: String, state: Boolean) : this(
+        id = INVALID_ID,
+        description = description,
+        state = state,
+        listID = INVALID_ID
+    )
+
     companion object {
         const val INVALID_ID = Long.MAX_VALUE
     }
