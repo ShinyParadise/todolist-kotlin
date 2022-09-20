@@ -32,7 +32,6 @@ class DetailFragment(val toDoList: ToDoList) : Fragment() {
             setContent {
                 ToDoListAppTheme {
                     DetailScreen(viewModel)
-                    Toast.makeText(context, toDoList.name, Toast.LENGTH_SHORT).show()
                 }
             }
         }
