@@ -1,5 +1,6 @@
 package com.example.toDoListKotlin
 
+import com.example.toDoListKotlin.dto.ListItem
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListItemRepository
 import com.example.toDoListKotlin.ui.screens.detailScreen.DetailViewModel
@@ -29,6 +30,7 @@ class DetailViewModelUnitTest {
         sut = DetailViewModel(repository = mockRepository, toDoList = testToDoList)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {
         Dispatchers.resetMain()
@@ -38,5 +40,11 @@ class DetailViewModelUnitTest {
     fun `test change item state`() {
         sut.changeSavedItemState()
         assertTrue(sut.savedItemState.value)
+    }
+
+    @Test
+    fun `test load all items`() {
+        val emptyList: List<ListItem> = emptyList()
+        assertEquals(emptyList, sut.listItems.value)
     }
 }
