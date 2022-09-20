@@ -18,10 +18,13 @@ import androidx.compose.ui.unit.sp
 import com.example.toDoListKotlin.dto.ListItem
 import com.example.toDoListKotlin.ui.screens.alertDialog.CustomDetailDialog
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel) {
+    val coroutineScope = rememberCoroutineScope()
+
     val listItems by viewModel.listItems.collectAsState(initial = emptyList())
     var openDialog by remember { mutableStateOf(false) }
 
@@ -30,14 +33,20 @@ fun DetailScreen(viewModel: DetailViewModel) {
         content = { padding ->
             ListItemsImpl(
                 listItems = listItems,
-                modifier = Modifier.padding(padding)
+                modifier = Modifier.padding(padding),
+                onListItemClick = {
+                    coroutineScope.launch { viewModel.changeItemState(it) }
+                }
             )
 
             if (openDialog) {
                 CustomDetailDialog(
                     viewModel = viewModel,
                     title = "Add list item",
-                    onPositiveClick = { openDialog = false },
+                    onPositiveClick = {
+                        openDialog = false
+                        coroutineScope.launch { viewModel.addListItem() }
+                    },
                     onNegativeClick = { openDialog = false }
                 )
             }
@@ -65,7 +74,7 @@ private fun DetailScreenImpl(
             ListItemsImpl(
                 listItems = listItems,
                 modifier = Modifier.padding(padding)
-            )
+            ) {}
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -82,7 +91,8 @@ private fun DetailScreenImpl(
 @Composable
 private fun ListItemsImpl(
     listItems: List<ListItem>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onListItemClick: (ListItem) -> Unit
 ) {
     Surface(
         color = MaterialTheme.colors.primary,
@@ -90,16 +100,19 @@ private fun ListItemsImpl(
     ) {
         LazyColumn {
             items(items = listItems) {
-                ListItem(it)
+                ListItem(it, onListItemClick)
             }
         }
     }
 }
 
 @Composable
-private fun ListItem(listItem: ListItem) {
+private fun ListItem(
+    listItem: ListItem,
+    onListItemClick: (ListItem) -> Unit
+) {
     var checkedState by remember { mutableStateOf(listItem.state) }
-    
+
     Surface(
         color = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary,
@@ -113,7 +126,10 @@ private fun ListItem(listItem: ListItem) {
                     checkmarkColor = MaterialTheme.colors.primary
                 ),
                 checked = checkedState,
-                onCheckedChange = { checkedState = it }
+                onCheckedChange = {
+                    onListItemClick(listItem)
+                    checkedState = it
+                }
             )
             Text(
                 text = listItem.description,
@@ -134,9 +150,9 @@ private fun ListItem(listItem: ListItem) {
 private fun Items_Preview_Dark() {
     ToDoListAppTheme {
         DetailScreenImpl(listItems = listOf(
-            ListItem("Test", false),
-            ListItem("aaaaaaa", true),
-            ListItem("Life is good", true)
+            ListItem("Test"),
+            ListItem("aaaaaaa"),
+            ListItem("Life is good")
         )) {}
     }
 }
@@ -151,9 +167,9 @@ private fun Items_Preview_Dark() {
 private fun Items_Preview_Light() {
     ToDoListAppTheme {
         DetailScreenImpl(listItems = listOf(
-            ListItem("Test", false),
-            ListItem("aaaaaaa", true),
-            ListItem("Life is good", true)
+            ListItem("Test"),
+            ListItem("aaaaaaa"),
+            ListItem("Life is good")
         )) {}
     }
 }
