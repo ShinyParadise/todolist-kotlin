@@ -41,12 +41,6 @@ class DetailViewModelUnitTest {
     }
 
     @Test
-    fun `test change item state`() {
-        sut.changeSavedItemState()
-        assertTrue(sut.savedItemState.value)
-    }
-
-    @Test
     fun `test add one item`() {
         coEvery { mockRepository.add(any()) } returns testListItem
         coEvery { mockRepository.loadAll() } returns listOf(testListItem)
