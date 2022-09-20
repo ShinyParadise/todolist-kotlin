@@ -1,9 +1,10 @@
 package com.example.toDoListKotlin
 
-import com.example.toDoListKotlin.dto.ListItem
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListItemRepository
 import com.example.toDoListKotlin.ui.screens.detailScreen.DetailViewModel
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -14,10 +15,10 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
-import org.mockito.Mockito.mock
 
 class DetailViewModelUnitTest {
     private lateinit var sut: DetailViewModel
+    private lateinit var mockRepository: ListItemRepository
     private val testToDoList = ToDoList(1, "test", "test")
 
     private val dispatcher = TestCoroutineDispatcher()
@@ -26,7 +27,7 @@ class DetailViewModelUnitTest {
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-        val mockRepository = mock(ListItemRepository::class.java)
+        mockRepository = mockk()
         sut = DetailViewModel(repository = mockRepository, toDoList = testToDoList)
     }
 
@@ -43,8 +44,9 @@ class DetailViewModelUnitTest {
     }
 
     @Test
-    fun `test load all items`() {
-        val emptyList: List<ListItem> = emptyList()
-        assertEquals(emptyList, sut.listItems.value)
+    fun `test add one item`() {
+        sut.setSavedDescription("teest")
+        coEvery { mockRepository.loadAll() } returns emptyList()
+
     }
 }
