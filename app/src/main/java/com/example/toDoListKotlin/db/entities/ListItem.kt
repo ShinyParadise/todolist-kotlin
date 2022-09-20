@@ -17,6 +17,6 @@ import androidx.room.PrimaryKey
 data class ListItem(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val description: String,
-    val isChecked: Boolean = false,
+    var isChecked: Boolean = false,
     @ColumnInfo(index = true) val listID: Long
 )
