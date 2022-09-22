@@ -42,7 +42,6 @@ fun DetailScreen(viewModel: DetailViewModel) {
             if (openDialog) {
                 CustomDetailDialog(
                     viewModel = viewModel,
-                    title = "Add list item",
                     onPositiveClick = {
                         openDialog = false
                         coroutineScope.launch { viewModel.addListItem() }

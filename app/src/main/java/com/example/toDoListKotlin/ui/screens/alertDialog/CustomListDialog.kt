@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.toDoListKotlin.R
 import com.example.toDoListKotlin.ui.screens.listScreen.ListViewModel
 import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
@@ -15,7 +17,6 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 @Composable
 fun CustomListDialog(
     viewModel: ListViewModel,
-    title: String,
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
 ) {
@@ -43,7 +44,7 @@ fun CustomListDialog(
         text = {
             Column(Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = title,
+                    text = stringResource(R.string.add_list_title),
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(8.dp)
@@ -65,7 +66,6 @@ fun CustomListDialog(
 
 @Composable
 private fun CustomListDialogImpl(
-    title: String,
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
 ) {
@@ -90,7 +90,7 @@ private fun CustomListDialogImpl(
         text = {
             Column(Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = title,
+                    text = stringResource(R.string.add_list_title),
                     fontSize = 20.sp,
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(8.dp)
@@ -107,7 +107,6 @@ private fun CustomListDialogImpl(
 private fun Dialog_Preview_Light() {
     ToDoListAppTheme {
         CustomListDialogImpl(
-            title = "Add list",
             onPositiveClick = {},
             onNegativeClick = {}
         )
@@ -119,7 +118,6 @@ private fun Dialog_Preview_Light() {
 private fun Dialog_Preview_Dark() {
     ToDoListAppTheme {
         CustomListDialogImpl(
-            title = "Add list",
             onPositiveClick = {},
             onNegativeClick = {}
         )

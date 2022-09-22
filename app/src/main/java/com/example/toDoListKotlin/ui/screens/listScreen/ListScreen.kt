@@ -36,7 +36,6 @@ fun ListScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
             if (openDialog) {
                 CustomListDialog(
                     viewModel = listViewModel,
-                    title = "Add a list",
                     onPositiveClick = {
                         openDialog = false
                         coroutineScope.launch { listViewModel.addListFromDialog() }
