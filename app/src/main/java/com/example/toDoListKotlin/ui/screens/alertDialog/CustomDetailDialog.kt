@@ -19,6 +19,8 @@ fun CustomDetailDialog(
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
 ) {
+    val storedDescription by viewModel.savedDescription.collectAsState()
+
     AlertDialog(
         onDismissRequest = onNegativeClick,
         contentColor = MaterialTheme.colors.onBackground,
@@ -29,18 +31,11 @@ fun CustomDetailDialog(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Button(
-                    onClick = onNegativeClick,
-                    modifier = Modifier.fillMaxWidth(0.5f)
-                ) {
-                    Text(text = "Back")
+                BackButton {
+                    onNegativeClick()
                 }
-
-                Button(
-                    onClick = onPositiveClick,
-                    Modifier.fillMaxWidth(1f)
-                ) {
-                    Text(text = "Add")
+                AddButton {
+                    onPositiveClick()
                 }
             }
         },
@@ -54,7 +49,7 @@ fun CustomDetailDialog(
                 )
                 InputField(
                     label = "Description",
-                    storedValue = viewModel.savedDescription,
+                    storedValue = storedDescription,
                     viewModel::setSavedDescription
                 )
             }
@@ -78,18 +73,11 @@ private fun CustomDetailDialogImpl(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Button(
-                    onClick = onNegativeClick,
-                    modifier = Modifier.fillMaxWidth(0.5f)
-                ) {
-                    Text(text = "Back")
+                BackButton {
+                    onNegativeClick()
                 }
-
-                Button(
-                    onClick = onPositiveClick,
-                    Modifier.fillMaxWidth(1f)
-                ) {
-                    Text(text = "Add")
+                AddButton {
+                    onPositiveClick()
                 }
             }
         },

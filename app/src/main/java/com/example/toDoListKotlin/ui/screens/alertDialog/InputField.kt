@@ -18,11 +18,9 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun InputField(
     label: String,
-    storedValue: StateFlow<String>,
+    storedValue: String,
     onValueChanged: (String) -> Unit
 ) {
-    val text by storedValue.collectAsState()
-
     TextField(
         colors = TextFieldDefaults.textFieldColors(
             textColor = MaterialTheme.colors.onPrimary,
@@ -32,7 +30,7 @@ fun InputField(
             unfocusedLabelColor = MaterialTheme.colors.onPrimary,
             cursorColor = MaterialTheme.colors.onPrimary
         ),
-        value = text,
+        value = storedValue,
         onValueChange = onValueChanged,
         label = { Text(label) },
         singleLine = true,

@@ -19,6 +19,9 @@ fun CustomListDialog(
     onPositiveClick: () -> Unit,
     onNegativeClick: () -> Unit
 ) {
+    val storedName by viewModel.savedName.collectAsState()
+    val storedDescription by viewModel.savedDescription.collectAsState()
+
     AlertDialog(
         onDismissRequest = onNegativeClick,
         contentColor = MaterialTheme.colors.onBackground,
@@ -47,12 +50,12 @@ fun CustomListDialog(
                 )
                 InputField(
                     label = "Name",
-                    storedValue = viewModel.savedName,
+                    storedValue = storedName,
                     viewModel::setSavedName
                 )
                 InputField(
                     label = "Description",
-                    storedValue = viewModel.savedDescription,
+                    storedValue = storedDescription,
                     viewModel::setSavedDescription
                 )
             }
