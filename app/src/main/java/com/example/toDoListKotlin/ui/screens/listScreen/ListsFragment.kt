@@ -28,7 +28,7 @@ class ListsFragment : Fragment() {
                         listViewModel = viewModel,
                         onItemClick = {
                             parentFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container_view, DetailFragment(it))
+                                .replace(R.id.fragment_container_view, DetailFragment(it.id))
                                 .addToBackStack(null)
                                 .commit()
                         }

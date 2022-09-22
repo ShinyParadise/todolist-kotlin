@@ -8,8 +8,8 @@ import com.example.toDoListKotlin.db.entities.ListItem as dbListItem
 
 class ListItemRepositoryImpl @Inject constructor (private val dao: ListItemDAO)
     : ListItemRepository {
-    override suspend fun loadAll(toDoList: ToDoList): List<ListItem> {
-        val listItemEntities = dao.getAllListItems(toDoList.id.toString())
+    override suspend fun loadAll(listID: Long): List<ListItem> {
+        val listItemEntities = dao.getAllListItems(listID.toString())
 
         val listItems = listItemEntities.map {
             ListItem(it.id, it.description, it.isChecked, it.listID)
