@@ -22,7 +22,7 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun ListsScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
+fun ListScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
 
     val lists by listViewModel.toDoLists.collectAsState(initial = emptyList())

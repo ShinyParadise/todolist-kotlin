@@ -24,7 +24,7 @@ class ListsFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 ToDoListAppTheme {
-                    ListsScreen(
+                    ListScreen(
                         listViewModel = viewModel,
                         onItemClick = {
                             parentFragmentManager.beginTransaction()
