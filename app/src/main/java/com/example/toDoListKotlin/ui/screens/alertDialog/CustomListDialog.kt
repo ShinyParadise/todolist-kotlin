@@ -29,18 +29,11 @@ fun CustomListDialog(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Button(
-                    onClick = onNegativeClick,
-                    modifier = Modifier.fillMaxWidth(0.5f)
-                ) {
-                    Text(text = "Back")
+                BackButton {
+                    onNegativeClick()
                 }
-
-                Button(
-                    onClick = onPositiveClick,
-                    Modifier.fillMaxWidth(1f)
-                ) {
-                    Text(text = "Add")
+                AddButton {
+                    onPositiveClick()
                 }
             }
         },
@@ -83,18 +76,11 @@ private fun CustomListDialogImpl(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Button(
-                    onClick = onNegativeClick,
-                    modifier = Modifier.fillMaxWidth(0.5f)
-                ) {
-                    Text(text = "Back")
+                BackButton {
+                    onNegativeClick()
                 }
-
-                Button(
-                    onClick = onPositiveClick,
-                    Modifier.fillMaxWidth(1f)
-                ) {
-                    Text(text = "Add")
+                AddButton {
+                    onPositiveClick()
                 }
             }
         },
