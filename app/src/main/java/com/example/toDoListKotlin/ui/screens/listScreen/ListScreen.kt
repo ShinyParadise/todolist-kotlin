@@ -57,10 +57,7 @@ fun ListScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
 }
 
 @Composable
-private fun ListScreenImpl(
-    lists: List<ToDoList>,
-    onAddButtonClick: () -> Unit
-) {
+private fun ListScreenImpl(lists: List<ToDoList>) {
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { paddingValues ->
@@ -68,7 +65,7 @@ private fun ListScreenImpl(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAddButtonClick,
+                onClick = {},
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = MaterialTheme.colors.primary
             ) {
@@ -102,7 +99,9 @@ private fun ToDoListItem(list: ToDoList, onItemClick: (ToDoList) -> Unit) {
     Surface(
         color = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary,
-        modifier = Modifier.fillMaxWidth().clickable { onItemClick(list) }
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClick(list) }
     ) {
         Column {
             Text(
@@ -132,7 +131,7 @@ private fun ToDoLists_Preview_Dark() {
         ListScreenImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
-        )) {}
+        ))
     }
 }
 
@@ -148,6 +147,6 @@ private fun ToDoLists_Preview_Light() {
         ListScreenImpl(lists = listOf(
             ToDoList("Header", "Description"),
             ToDoList("Test", "Test")
-        )) {}
+        ))
     }
 }

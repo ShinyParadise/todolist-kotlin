@@ -31,7 +31,7 @@ fun DetailScreen(viewModel: DetailViewModel) {
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { padding ->
-            ListItemsImpl(
+            ListItems(
                 listItems = listItems,
                 modifier = Modifier.padding(padding),
                 onListItemClick = {
@@ -63,21 +63,18 @@ fun DetailScreen(viewModel: DetailViewModel) {
 }
 
 @Composable
-private fun DetailScreenImpl(
-    listItems: List<ListItem>,
-    onAddButtonClick: () -> Unit
-) {
+private fun DetailScreenImpl(listItems: List<ListItem>) {
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { padding ->
-            ListItemsImpl(
+            ListItems(
                 listItems = listItems,
                 modifier = Modifier.padding(padding)
             ) {}
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAddButtonClick,
+                onClick = {},
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = MaterialTheme.colors.primary
             ) {
@@ -88,7 +85,7 @@ private fun DetailScreenImpl(
 }
 
 @Composable
-private fun ListItemsImpl(
+private fun ListItems(
     listItems: List<ListItem>,
     modifier: Modifier = Modifier,
     onListItemClick: (ListItem) -> Unit
@@ -152,7 +149,7 @@ private fun Items_Preview_Dark() {
             ListItem("Test"),
             ListItem("aaaaaaa"),
             ListItem("Life is good")
-        )) {}
+        ))
     }
 }
 
@@ -169,6 +166,6 @@ private fun Items_Preview_Light() {
             ListItem("Test"),
             ListItem("aaaaaaa"),
             ListItem("Life is good")
-        )) {}
+        ))
     }
 }
