@@ -89,7 +89,7 @@ private fun CustomDetailDialogImpl(
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(8.dp)
                 )
-                InputFieldImpl(label = "Description")
+                InputField(label = "Description", storedValue = "") {}
             }
         }
     )

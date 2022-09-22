@@ -95,8 +95,8 @@ private fun CustomListDialogImpl(
                     style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(8.dp)
                 )
-                InputFieldImpl(label = "Name")
-                InputFieldImpl(label = "Description")
+                InputField(label = "Name", storedValue = "") {}
+                InputField(label = "Description", storedValue = "") {}
             }
         }
     )

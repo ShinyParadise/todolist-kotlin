@@ -38,32 +38,11 @@ fun InputField(
     )
 }
 
-@Composable
-fun InputFieldImpl(label: String) {
-    var text by remember { mutableStateOf("") }
-
-    TextField(
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colors.onPrimary,
-            focusedIndicatorColor = MaterialTheme.colors.onPrimary,
-            focusedLabelColor = MaterialTheme.colors.onPrimary,
-            unfocusedIndicatorColor = MaterialTheme.colors.onPrimary,
-            unfocusedLabelColor = MaterialTheme.colors.onPrimary,
-            cursorColor = MaterialTheme.colors.onPrimary
-        ),
-        value = text,
-        onValueChange = { text = it },
-        label = { Text(label) },
-        singleLine = true,
-        modifier = Modifier.padding(8.dp)
-    )
-}
-
 @Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 private fun InputField_Preview_Dark() {
     ToDoListAppTheme {
-        InputFieldImpl(label = "Example")
+        InputField(label = "Example", storedValue = "") {}
     }
 }
 
@@ -71,6 +50,6 @@ private fun InputField_Preview_Dark() {
 @Composable
 private fun InputField_Preview_Light() {
     ToDoListAppTheme {
-        InputFieldImpl(label = "Example")
+        InputField(label = "Example", storedValue = "") {}
     }
 }
