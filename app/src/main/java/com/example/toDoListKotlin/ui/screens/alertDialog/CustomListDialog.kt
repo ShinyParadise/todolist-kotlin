@@ -64,51 +64,18 @@ fun CustomListDialog(
     )
 }
 
-@Composable
-private fun CustomListDialogImpl(
-    onPositiveClick: () -> Unit,
-    onNegativeClick: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onNegativeClick,
-        contentColor = MaterialTheme.colors.onBackground,
-        backgroundColor = MaterialTheme.colors.background,
-        buttons = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                BackButton {
-                    onNegativeClick()
-                }
-                AddButton {
-                    onPositiveClick()
-                }
-            }
-        },
-        text = {
-            Column(Modifier.padding(vertical = 8.dp)) {
-                Text(
-                    text = stringResource(R.string.add_list_title),
-                    fontSize = 20.sp,
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(8.dp)
-                )
-                InputField(label = "Name", storedValue = "") {}
-                InputField(label = "Description", storedValue = "") {}
-            }
-        }
-    )
-}
 
 @Preview(showBackground = true)
 @Composable
 private fun Dialog_Preview_Light() {
     ToDoListAppTheme {
-        CustomListDialogImpl(
+        CustomListDialog(
+            dialogName = "",
+            dialogDescription = "",
             onPositiveClick = {},
-            onNegativeClick = {}
+            onNegativeClick = {},
+            onChangeName = {},
+            onChangeDescription = {}
         )
     }
 }
@@ -117,9 +84,13 @@ private fun Dialog_Preview_Light() {
 @Composable
 private fun Dialog_Preview_Dark() {
     ToDoListAppTheme {
-        CustomListDialogImpl(
+        CustomListDialog(
+            dialogName = "",
+            dialogDescription = "",
             onPositiveClick = {},
-            onNegativeClick = {}
+            onNegativeClick = {},
+            onChangeName = {},
+            onChangeDescription = {}
         )
     }
 }
