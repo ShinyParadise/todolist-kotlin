@@ -23,9 +23,27 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel) {
-    val coroutineScope = rememberCoroutineScope()
-
     val listItems by viewModel.listItems.collectAsState(initial = emptyList())
+    val dialogDescription by viewModel.savedDescription.collectAsState()
+
+    DetailScreenContent(
+        listItems = listItems,
+        dialogDescription = dialogDescription,
+        onListItemClick = viewModel::changeItemState,
+        addListItem = viewModel::addListItem,
+        onChangeDescription = viewModel::setSavedDescription
+    )
+}
+
+@Composable
+private fun DetailScreenContent(
+    listItems: List<ListItem>,
+    dialogDescription: String,
+    onListItemClick: suspend (ListItem) -> Unit,
+    addListItem: suspend () -> Unit,
+    onChangeDescription: (String) -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
     var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -35,16 +53,17 @@ fun DetailScreen(viewModel: DetailViewModel) {
                 listItems = listItems,
                 modifier = Modifier.padding(padding),
                 onListItemClick = {
-                    coroutineScope.launch { viewModel.changeItemState(it) }
+                    coroutineScope.launch { onListItemClick(it) }
                 }
             )
 
             if (openDialog) {
                 CustomDetailDialog(
-                    viewModel = viewModel,
+                    dialogDescription = dialogDescription,
+                    onChangeDescription = onChangeDescription,
                     onPositiveClick = {
                         openDialog = false
-                        coroutineScope.launch { viewModel.addListItem() }
+                        coroutineScope.launch { addListItem() }
                     },
                     onNegativeClick = { openDialog = false }
                 )
@@ -53,28 +72,6 @@ fun DetailScreen(viewModel: DetailViewModel) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { openDialog = true },
-                backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = MaterialTheme.colors.primary
-            ) {
-                Icon(Icons.Filled.Add, "Add an item")
-            }
-        }
-    )
-}
-
-@Composable
-private fun DetailScreenImpl(listItems: List<ListItem>) {
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.primary,
-        content = { padding ->
-            ListItems(
-                listItems = listItems,
-                modifier = Modifier.padding(padding)
-            ) {}
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {},
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = MaterialTheme.colors.primary
             ) {
@@ -145,11 +142,17 @@ private fun ListItem(
 @Composable
 private fun Items_Preview_Dark() {
     ToDoListAppTheme {
-        DetailScreenImpl(listItems = listOf(
-            ListItem("Test"),
-            ListItem("aaaaaaa"),
-            ListItem("Life is good")
-        ))
+        DetailScreenContent(
+            listItems = listOf(
+                ListItem("Test"),
+                ListItem("aaaaaaa"),
+                ListItem("Life is good")
+            ),
+            dialogDescription = "",
+            onListItemClick = {},
+            addListItem = {},
+            onChangeDescription = {}
+        )
     }
 }
 
@@ -162,10 +165,16 @@ private fun Items_Preview_Dark() {
 @Composable
 private fun Items_Preview_Light() {
     ToDoListAppTheme {
-        DetailScreenImpl(listItems = listOf(
-            ListItem("Test"),
-            ListItem("aaaaaaa"),
-            ListItem("Life is good")
-        ))
+        DetailScreenContent(
+            listItems = listOf(
+                ListItem("Test"),
+                ListItem("aaaaaaa"),
+                ListItem("Life is good")
+            ),
+            dialogDescription = "",
+            onListItemClick = {},
+            addListItem = {},
+            onChangeDescription = {}
+        )
     }
 }

@@ -16,12 +16,11 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
 fun CustomDetailDialog(
-    viewModel: DetailViewModel,
+    dialogDescription: String,
     onPositiveClick: () -> Unit,
-    onNegativeClick: () -> Unit
+    onNegativeClick: () -> Unit,
+    onChangeDescription: (String) -> Unit
 ) {
-    val storedDescription by viewModel.savedDescription.collectAsState()
-
     AlertDialog(
         onDismissRequest = onNegativeClick,
         contentColor = MaterialTheme.colors.onBackground,
@@ -50,8 +49,8 @@ fun CustomDetailDialog(
                 )
                 InputField(
                     label = "Description",
-                    storedValue = storedDescription,
-                    viewModel::setSavedDescription
+                    storedValue = dialogDescription,
+                    onChangeDescription
                 )
             }
         }

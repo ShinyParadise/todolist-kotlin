@@ -23,49 +23,63 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListScreen(listViewModel: ListViewModel, onItemClick: (ToDoList) -> Unit) {
-    val coroutineScope = rememberCoroutineScope()
-
     val lists by listViewModel.toDoLists.collectAsState(initial = emptyList())
+
+    val dialogName by listViewModel.savedName.collectAsState()
+    val dialogDescription by listViewModel.savedDescription.collectAsState()
+    
+    ListScreenContent(
+        lists = lists,
+        dialogName = dialogName,
+        dialogDescription = dialogDescription,
+        addList = listViewModel::addListFromDialog,
+        onItemClick = onItemClick,
+        onChangeName = listViewModel::setSavedName,
+        onChangeDescription = listViewModel::setSavedDescription
+    )
+}
+
+@Composable
+private fun ListScreenContent(
+    lists: List<ToDoList>,
+    dialogName: String,
+    dialogDescription: String,
+    addList: suspend () -> Unit,
+    onItemClick: suspend (ToDoList) -> Unit,
+    onChangeName: (String) -> Unit,
+    onChangeDescription: (String) -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
     var openDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         backgroundColor = MaterialTheme.colors.primary,
         content = { paddingValues ->
-            ToDoLists(lists = lists, Modifier.padding(paddingValues), onItemClick)
+            ToDoLists(
+                lists = lists,
+                modifier = Modifier.padding(paddingValues),
+                onItemClick = {
+                    coroutineScope.launch { onItemClick(it) }
+                }
+            )
 
             if (openDialog) {
                 CustomListDialog(
-                    viewModel = listViewModel,
+                    dialogName = dialogName,
+                    dialogDescription = dialogDescription,
                     onPositiveClick = {
                         openDialog = false
-                        coroutineScope.launch { listViewModel.addListFromDialog() }
+                        coroutineScope.launch { addList() }
                     },
-                    onNegativeClick = { openDialog = false }
+                    onNegativeClick = { openDialog = false },
+                    onChangeName = onChangeName,
+                    onChangeDescription = onChangeDescription
                 )
             }
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { openDialog = true },
-                backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = MaterialTheme.colors.primary
-            ) {
-                Icon(Icons.Filled.Add, "Add an item")
-            }
-        }
-    )
-}
-
-@Composable
-private fun ListScreenImpl(lists: List<ToDoList>) {
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.primary,
-        content = { paddingValues ->
-            ToDoLists(lists = lists, Modifier.padding(paddingValues)) {}
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {},
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = MaterialTheme.colors.primary
             ) {
@@ -128,10 +142,18 @@ private fun ToDoListItem(list: ToDoList, onItemClick: (ToDoList) -> Unit) {
 @Composable
 private fun ToDoLists_Preview_Dark() {
     ToDoListAppTheme {
-        ListScreenImpl(lists = listOf(
-            ToDoList("Header", "Description"),
-            ToDoList("Test", "Test")
-        ))
+        ListScreenContent(
+            lists = listOf(
+                ToDoList("Header", "Description"),
+                ToDoList("Test", "Test")
+            ),
+            dialogName = "",
+            dialogDescription = "",
+            addList = {},
+            onItemClick = {},
+            onChangeName = {},
+            onChangeDescription = {}
+        )
     }
 }
 
@@ -144,9 +166,17 @@ private fun ToDoLists_Preview_Dark() {
 @Composable
 private fun ToDoLists_Preview_Light() {
     ToDoListAppTheme {
-        ListScreenImpl(lists = listOf(
-            ToDoList("Header", "Description"),
-            ToDoList("Test", "Test")
-        ))
+        ListScreenContent(
+            lists = listOf(
+                ToDoList("Header", "Description"),
+                ToDoList("Test", "Test")
+            ),
+            dialogName = "",
+            dialogDescription = "",
+            addList = {},
+            onItemClick = {},
+            onChangeName = {},
+            onChangeDescription = {}
+        )
     }
 }

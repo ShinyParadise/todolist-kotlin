@@ -16,13 +16,13 @@ import com.example.toDoListKotlin.ui.theme.ToDoListAppTheme
 
 @Composable
 fun CustomListDialog(
-    viewModel: ListViewModel,
+    dialogName: String,
+    dialogDescription: String,
     onPositiveClick: () -> Unit,
-    onNegativeClick: () -> Unit
+    onNegativeClick: () -> Unit,
+    onChangeName: (String) -> Unit,
+    onChangeDescription: (String) -> Unit
 ) {
-    val storedName by viewModel.savedName.collectAsState()
-    val storedDescription by viewModel.savedDescription.collectAsState()
-
     AlertDialog(
         onDismissRequest = onNegativeClick,
         contentColor = MaterialTheme.colors.onBackground,
@@ -51,13 +51,13 @@ fun CustomListDialog(
                 )
                 InputField(
                     label = "Name",
-                    storedValue = storedName,
-                    viewModel::setSavedName
+                    storedValue = dialogName,
+                    onChangeName
                 )
                 InputField(
                     label = "Description",
-                    storedValue = storedDescription,
-                    viewModel::setSavedDescription
+                    storedValue = dialogDescription,
+                    onChangeDescription
                 )
             }
         }
