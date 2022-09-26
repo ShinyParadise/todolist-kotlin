@@ -5,6 +5,7 @@ import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListItemRepository
 import com.example.toDoListKotlin.ui.screens.detailScreen.DetailViewModel
 import io.mockk.coEvery
+import io.mockk.coJustRun
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,8 +31,11 @@ class DetailViewModelUnitTest {
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
+
         mockRepository = mockk()
-        sut = DetailViewModel(repository = mockRepository, toDoList = testToDoList)
+        coJustRun { mockRepository.update(any()) }
+
+        sut = DetailViewModel(repository = mockRepository, listID = testToDoList.id)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -42,8 +46,8 @@ class DetailViewModelUnitTest {
 
     @Test
     fun `test add one item`() {
+        coEvery { mockRepository.loadAll(testToDoList.id) } returns listOf(testListItem)
         coEvery { mockRepository.add(any()) } returns testListItem
-        coEvery { mockRepository.loadAll() } returns listOf(testListItem)
 
         sut.setSavedDescription("teest")
         runBlocking {
@@ -51,5 +55,22 @@ class DetailViewModelUnitTest {
         }
 
         assertEquals(listOf(testListItem), sut.listItems.value)
+    }
+
+    @Test
+    fun `test init values`() {
+        val emptyListOfItems: List<ListItem> = emptyList()
+
+        assertEquals("", sut.savedDescription.value)
+        assertEquals(emptyListOfItems, sut.listItems.value)
+    }
+
+    @Test
+    fun `test change item state`() {
+        coEvery { mockRepository.loadAll(testToDoList.id) } returns listOf(testListItem)
+        runBlocking { sut.changeItemState(testListItem) }
+
+        val changedState = sut.listItems.value[0].state
+        assertTrue(changedState)
     }
 }
