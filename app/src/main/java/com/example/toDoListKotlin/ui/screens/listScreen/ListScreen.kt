@@ -45,7 +45,7 @@ private fun ListScreenContent(
     dialogName: String,
     dialogDescription: String,
     addList: suspend () -> Unit,
-    onItemClick: suspend (ToDoList) -> Unit,
+    onItemClick: (ToDoList) -> Unit,
     onChangeName: (String) -> Unit,
     onChangeDescription: (String) -> Unit
 ) {
