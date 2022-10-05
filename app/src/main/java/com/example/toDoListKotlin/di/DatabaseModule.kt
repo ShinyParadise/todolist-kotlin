@@ -3,6 +3,7 @@ package com.example.toDoListKotlin.di
 import android.content.Context
 import androidx.room.Room
 import com.example.toDoListKotlin.db.AppDatabase
+import com.example.toDoListKotlin.db.dao.ListItemDAO
 import com.example.toDoListKotlin.db.dao.ToDoListDAO
 import dagger.Module
 import dagger.Provides
@@ -28,5 +29,10 @@ class DatabaseModule {
     @Provides
     fun provideToDoListDAO(database: AppDatabase): ToDoListDAO {
         return database.toDoListDAO()
+    }
+
+    @Provides
+    fun provideListItemDAO(database: AppDatabase): ListItemDAO {
+        return database.listItemDAO()
     }
 }

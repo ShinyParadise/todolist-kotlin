@@ -5,37 +5,35 @@ import androidx.lifecycle.viewModelScope
 import com.example.toDoListKotlin.dto.ToDoList
 import com.example.toDoListKotlin.repositories.ListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor (private val listRepository: ListRepository): ViewModel() {
-    private var toDoLists: ArrayList<ToDoList> = ArrayList()
+    private val _savedName = MutableStateFlow("")
+    val savedName = _savedName.asStateFlow()
 
-    init {
-        viewModelScope.launch { toDoLists = ArrayList(listRepository.loadAll()) }
-    }
+    private val _savedDescription = MutableStateFlow("")
+    val savedDescription = _savedDescription.asStateFlow()
 
-    val listFlow: Flow<ArrayList<ToDoList>> = flow {
-        repeat(10) {
-            listRepository.add(generateNewList())
+    private val _toDoLists: MutableStateFlow<List<ToDoList>> = MutableStateFlow(emptyList())
+    val toDoLists: StateFlow<List<ToDoList>> = _toDoLists.asStateFlow()
 
-            toDoLists = ArrayList(listRepository.loadAll())
-            emit(toDoLists)
+    init { viewModelScope.launch { _toDoLists.value = listRepository.loadAll() } }
 
-            delay(1000)
+    suspend fun addListFromDialog() {
+        if (savedName.value.isNotBlank()) {
+            listRepository.add(ToDoList(savedName.value, savedDescription.value))
+            _toDoLists.value = listRepository.loadAll()
         }
     }
 
-    private fun generateNewList(): ToDoList {
-        val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    fun setSavedName(name: String) {
+        _savedName.value = name
+    }
 
-        val randomName: String = List(20) { alphabet.random() }.joinToString("")
-        val randomDescription: String = List(20) { alphabet.random() }.joinToString("")
-
-        return ToDoList(randomName, randomDescription)
+    fun setSavedDescription(description: String) {
+        _savedDescription.value = description
     }
 }
